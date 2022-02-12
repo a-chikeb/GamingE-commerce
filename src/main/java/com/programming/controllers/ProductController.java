@@ -43,8 +43,9 @@ public class ProductController {
 
         //System.out.println("Page "+page);
         //System.out.println("Search Category From "+from+" to "+to);
-
+        category = category.replace("-"," ");
         Pageable paging = PageRequest.of(page - 1, 20);
+
         return productRepository.findProductByCategory_Name(category,paging);
     }
 
@@ -54,11 +55,21 @@ public class ProductController {
     @GetMapping("/category/{category}/size/{size}")
     public List<Product> getProductByCategoryAndSize(@PathVariable("category") String category,@PathVariable("size") int size){
 
-        category = category.replace("-"," ").toLowerCase(Locale.ROOT);
+        category = category.replace("-"," ");
 
         Pageable paging = PageRequest.of(0, size);
 
         return productRepository.findProductByCategory_Name(category,paging);
+    }
+
+    @GetMapping("/parent_category/{category}/size/{size}")
+    public List<Product> getProductByParentCategoryAndSize(@PathVariable("category") String category,@PathVariable("size") int size){
+
+        category = category.replace("-"," ");
+
+        Pageable paging = PageRequest.of(0, size);
+
+        return productRepository.findProductByCategory_ParentCategoryOrderByPriceDesc(category,paging);
     }
 
 

@@ -18,6 +18,10 @@ public class Category {
     @Column(name = "name")
     private String name;
 
+    @Nullable
+    @Column(name = "parentCategory")
+    private String parentCategory;
+
 
     @Nullable
     @OneToMany(targetEntity=Product.class, mappedBy="category",cascade=CascadeType.ALL, fetch = FetchType.LAZY)

@@ -20,13 +20,21 @@ public class Product implements Serializable {
 
     private String description;
 
-    //Price Option
+    private String price;
+
+    private String reference;
+
+
+
+    //Price Option for example window 10 = .... && windows 11 = .....
     @Nullable
     @OneToMany(targetEntity=PriceOption.class, mappedBy="product",cascade=CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<PriceOption> price_options;
 
+    @Nullable
     private String images;
 
+    @Nullable
     @Column(name = "brandImages")
     private String brand_images;
 
@@ -36,9 +44,12 @@ public class Product implements Serializable {
     @OneToMany(targetEntity=Color.class, mappedBy="product",cascade=CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Color> colors = new HashSet<>();
 
+    @Nullable
     private int total;
 
     private String overview;
+
+    private String etat;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "category_id", nullable = false)
@@ -139,6 +150,30 @@ public class Product implements Serializable {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getEtat() {
+        return etat;
+    }
+
+    public void setEtat(String etat) {
+        this.etat = etat;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 
     @Override
