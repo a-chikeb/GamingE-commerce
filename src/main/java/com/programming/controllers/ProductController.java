@@ -37,6 +37,9 @@ public class ProductController {
     @GetMapping("/category/{category}/{page}")
     public List<Product> findProductByCategory(@PathVariable("category") String category,@PathVariable("page") int page){
 
+        System.out.println("method findProductByCategory");
+
+
         //int size = productRepository.findProductByCategory_Name(category).size();
         //int from = page > 0 ? (page-1) * 20 : 0;
         //int to = page * 20;
@@ -44,7 +47,7 @@ public class ProductController {
         //System.out.println("Page "+page);
         //System.out.println("Search Category From "+from+" to "+to);
         category = category.replace("-"," ");
-        Pageable paging = PageRequest.of(page - 1, 20);
+        Pageable paging = PageRequest.of(0, 20);
 
         return productRepository.findProductByCategory_Name(category,paging);
     }
@@ -61,6 +64,7 @@ public class ProductController {
 
         return productRepository.findProductByCategory_Name(category,paging);
     }
+
 
     @GetMapping("/parent_category/{category}/size/{size}")
     public List<Product> getProductByParentCategoryAndSize(@PathVariable("category") String category,@PathVariable("size") int size){
@@ -80,10 +84,12 @@ public class ProductController {
         return productRepository.findProductByNameContaining(name,paging);
     }
 
+
     @GetMapping("/{id}")
     public Product getProductDetails(@PathVariable("id") Long id){
         return productRepository.findProductById(id);
     }
+
 
 
     @PostMapping("/add")
@@ -102,4 +108,51 @@ public class ProductController {
         //System.out.println(product);
 
     }
+
+
+
+    //Func =>Get Count Of Searched Products
+    @GetMapping("/search/{name}/count")
+    public Integer searchGetCountProduct(@PathVariable("name") String name){
+        return productRepository.findProductByNameContaining(name).size();
+    }
+
+    //Func =>Get Count Of Category Products
+    @GetMapping("/category/{name}/count")
+    public Integer getCategoryProductCount(@PathVariable("name") String name){
+        name = name.replace("-"," ");
+        return productRepository.findProductByCategory_Name(name).size();
+    }
+
+
+    //Func =>Get Product by filter (+pageable)
+    //Name
+    //Price Low To High
+    //Price High To Low
+    //New Arrivals
+    @GetMapping("/search/{name}/{page}/filter={by}")
+    public List<Product> searchByNameOrLetterFilterBy(@PathVariable("name") String name, @PathVariable("page") int page,@PathVariable("by") String by){
+        Pageable paging = PageRequest.of(page - 1, 20);
+
+        switch (by) {
+            case "name":
+                return productRepository.findProductByNameContainingOrderByNameAsc(name, paging);
+            case "high-to-low":
+                return productRepository.findProductByNameContainingOrderByPriceDesc(name, paging);
+            case "low-to-high":
+                return productRepository.findProductByNameContainingOrderByPriceAsc(name, paging);
+            default:
+                return productRepository.findProductByNameContaining(name, paging);
+        }
+
+    }
+
+
+    @PostMapping("/pcBuilder/add")
+    public void addPcBuilder(){
+        System.out.println("-----------");
+        //System.out.println(data);
+
+    }
+
 }

@@ -20,7 +20,7 @@ public class Product implements Serializable {
 
     private String description;
 
-    private String price;
+    private Integer price;
 
     private String reference;
 
@@ -54,6 +54,8 @@ public class Product implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+
+
 
 
     public Product() {
@@ -152,11 +154,11 @@ public class Product implements Serializable {
         this.category = category;
     }
 
-    public String getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
