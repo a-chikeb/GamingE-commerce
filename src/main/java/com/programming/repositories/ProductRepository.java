@@ -12,6 +12,10 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     List<Product> findProductByCategory_Name(String category, Pageable pageable);
     List<Product> findProductByCategory_Name(String category);
 
+    List<Product> findProductByCategory_ParentCategoryOrderByPriceDesc(String name,Pageable pageable);
+    List<Product> findProductByCategory_ParentCategory(String category);
+
+
     //Search and Filter Function
     List<Product> findProductByNameContaining(String name, Pageable pageable);
     List<Product> findProductByNameContainingOrderByPriceDesc(String name,Pageable pageable);
@@ -19,6 +23,6 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     List<Product> findProductByNameContainingOrderByNameAsc(String name,Pageable pageable);
 
     List<Product> findProductByNameContaining(String name);
-    List<Product> findProductByCategory_ParentCategoryOrderByPriceDesc(String name,Pageable pageable);
+
     Product findProductById(Long id);
 }

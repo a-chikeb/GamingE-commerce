@@ -5,6 +5,7 @@ import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Optional;
 
 @Entity
 @Table(name = "pcBuilder")
@@ -42,6 +43,11 @@ public class PcBuilder {
     @Nullable
     @Column(name = "hardDrive")
     private int hardDrive;
+
+
+    @Nullable
+    @Column(name = "motherBoard")
+    private int motherBoard;
 
     //case because case is java keyword
     @Nullable
@@ -83,7 +89,6 @@ public class PcBuilder {
     private int caseFan;
 
 
-
     // PERIPHERALS
 
     @Nullable
@@ -93,6 +98,10 @@ public class PcBuilder {
     @Nullable
     @Column(name = "keyword")
     private int keyword;
+
+    @Nullable
+    @Column(name = "keywordPack")
+    private int keywordPack;
 
     //if have keyboard and mouse pack
     //private int keyboardMousePack;
@@ -343,11 +352,31 @@ public class PcBuilder {
         this.printer = printer;
     }
 
+    /*
     public User getUser() {
         return user;
     }
 
+     */
+
     public void setUser(User user) {
         this.user = user;
+    }
+
+
+    public int getMotherBoard() {
+        return motherBoard;
+    }
+
+    public void setMotherBoard(int motherBoard) {
+        this.motherBoard = motherBoard;
+    }
+
+    public int getKeywordPack() {
+        return keywordPack;
+    }
+
+    public void setKeywordPack(int keywordPack) {
+        this.keywordPack = keywordPack;
     }
 }

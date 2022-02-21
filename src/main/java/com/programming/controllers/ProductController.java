@@ -37,7 +37,7 @@ public class ProductController {
     @GetMapping("/category/{category}/{page}")
     public List<Product> findProductByCategory(@PathVariable("category") String category,@PathVariable("page") int page){
 
-        System.out.println("method findProductByCategory");
+        //System.out.println("method findProductByCategory");
 
 
         //int size = productRepository.findProductByCategory_Name(category).size();
@@ -47,7 +47,7 @@ public class ProductController {
         //System.out.println("Page "+page);
         //System.out.println("Search Category From "+from+" to "+to);
         category = category.replace("-"," ");
-        Pageable paging = PageRequest.of(0, 20);
+        Pageable paging = PageRequest.of(page-1, 20);
 
         return productRepository.findProductByCategory_Name(category,paging);
     }
@@ -66,12 +66,34 @@ public class ProductController {
     }
 
 
+    @GetMapping("/similar/{category}/size/{size}")
+    public List<Product> getProductSimilarCategoryAndSize(@PathVariable("category") String category,@PathVariable("size") int size){
+
+        Pageable paging = PageRequest.of(0, size);
+
+        return productRepository.findProductByCategory_Name(category,paging);
+    }
+
+
     @GetMapping("/parent_category/{category}/size/{size}")
     public List<Product> getProductByParentCategoryAndSize(@PathVariable("category") String category,@PathVariable("size") int size){
 
         category = category.replace("-"," ");
 
         Pageable paging = PageRequest.of(0, size);
+
+        return productRepository.findProductByCategory_ParentCategoryOrderByPriceDesc(category,paging);
+    }
+
+    @GetMapping("/parent_category/{category}/page/{page}")
+    public List<Product> getProductByParentCategoryAndPage(@PathVariable("category") String category,@PathVariable("page") int page){
+
+        System.out.println("parent category");
+        category = category.replace("-"," ");
+        System.out.println(category);
+        System.out.println(page);
+
+        Pageable paging = PageRequest.of(page-1, 20);
 
         return productRepository.findProductByCategory_ParentCategoryOrderByPriceDesc(category,paging);
     }
@@ -118,10 +140,17 @@ public class ProductController {
     }
 
     //Func =>Get Count Of Category Products
+
     @GetMapping("/category/{name}/count")
     public Integer getCategoryProductCount(@PathVariable("name") String name){
         name = name.replace("-"," ");
         return productRepository.findProductByCategory_Name(name).size();
+    }
+
+    @GetMapping("/parent_category/{name}/count")
+    public Integer getParentCategoryProductCount(@PathVariable("name") String name){
+        name = name.replace("-"," ");
+        return productRepository.findProductByCategory_ParentCategory(name).size();
     }
 
 
@@ -148,11 +177,6 @@ public class ProductController {
     }
 
 
-    @PostMapping("/pcBuilder/add")
-    public void addPcBuilder(){
-        System.out.println("-----------");
-        //System.out.println(data);
 
-    }
 
 }

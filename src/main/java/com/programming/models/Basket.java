@@ -21,12 +21,14 @@ public class Basket {
     @Column(name = "quantity")
     private int quantity;
 
+    @Nullable
     @Column(name = "color")
     private String color;
 
     @Column(name = "price")
-    private String price;
+    private int price;
 
+    @Nullable
     @Column(name = "option")
     private String option;
 
@@ -80,13 +82,15 @@ public class Basket {
     }
 
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
-
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

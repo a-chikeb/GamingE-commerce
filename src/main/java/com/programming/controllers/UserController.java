@@ -36,14 +36,14 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public void registerUer(@RequestBody User user){
+    public void registerUser(@RequestBody User user){
         userService.registerUser(user);
     }
 
     @PostMapping("/login")
     public User login(@RequestBody Map<String,Object> data){
 
-        return userService.login(data.get("username").toString(),data.get("password").toString());
+        return userService.login(data.get("email").toString(),data.get("password").toString());
 
     }
 
@@ -53,13 +53,16 @@ public class UserController {
         List<Item> items = new ArrayList<>();
         for (Basket b:basketRepository.findByUserId(id)) {
             Product productName = productRepository.findProductById((long) b.getProductId());
-            int subTotal = Integer.parseInt(b.getPrice())*b.getQuantity();
-            Item item = new Item(productName.getName(),
+            int subTotal = b.getPrice()*b.getQuantity();
+            Item item = new Item(
+                    Math.toIntExact(b.getId()),
+                    productName.getName(),
                     b.getColor(),
                     productName.getImages(),
                     b.getPrice(),
-                    String.valueOf(subTotal),
-                    b.getQuantity());
+                    subTotal,
+                    b.getQuantity(),
+                    b.getProductId());
 
             items.add(item);
         }
@@ -67,13 +70,6 @@ public class UserController {
 
     }
 
-    @PostMapping("/pc_builder/add/{id}")
-    public void addPcBuilder(@RequestBody PcBuilder pcBuilder,@PathVariable("id") int id){
-        User user = userService.findById(id);
-        pcBuilder.setDate(new Date());
-        pcBuilder.setUser(user);
-        pcBuilderRepository.save(pcBuilder);
-    }
 
 
 }

@@ -12,18 +12,21 @@ public class Item {
 
     public String productImage;
 
-    public String productPrice;
+    public int productPrice;
 
-    public String subTotal;
+    public int subTotal;
 
     public int quantity;
+    public int productId;
 
-    public Item(String productName, String color, String productImage, String productPrice, String subTotal, int quantity) {
+    public Item(int id, String productName, String color, String productImage, int productPrice, int subTotal, int quantity, int productId) {
+        this.id = id;
         this.productName = productName;
         this.color = color;
         this.productImage = productImage;
         this.productPrice = productPrice;
         this.subTotal = subTotal;
         this.quantity = quantity;
+        this.productId = productId;
     }
 }
