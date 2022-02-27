@@ -29,6 +29,10 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "bio")
+    private String bio;
+
+
 
     @Nullable
     @OneToMany(targetEntity=Basket.class, mappedBy="user",cascade=CascadeType.ALL, fetch = FetchType.LAZY)
@@ -107,5 +111,13 @@ public class User {
 
     public void setPcBuilders(@Nullable Set<PcBuilder> pcBuilders) {
         this.pcBuilders = pcBuilders;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 }

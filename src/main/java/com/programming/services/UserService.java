@@ -76,5 +76,21 @@ public class UserService implements UserDetailsService {
 
     }
 
+    public void updateUserDetails(int userId,String firstName,String lastName,String email,String username,String bio){
+        User user = findById(userId);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setEmail(email);
+        user.setUsername(username);
+        user.setBio(bio);
+        userRepository.save(user);
+    }
+
+    public void updateUserPassword(int userId,String password){
+        User user = findById(userId);
+        user.setPassword(userPasswordEncoder.encode(password));
+        userRepository.save(user);
+    }
+
 
 }

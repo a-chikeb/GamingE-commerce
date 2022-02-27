@@ -36,8 +36,8 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public void registerUser(@RequestBody User user){
-        userService.registerUser(user);
+    public Integer registerUser(@RequestBody User user){
+        return userService.registerUser(user).getId();
     }
 
     @PostMapping("/login")
@@ -68,6 +68,25 @@ public class UserController {
         }
         return items;
 
+    }
+
+
+    @GetMapping("/details/{id}")
+    public User getUserDetails(@PathVariable("id") int id){
+        return userService.findById(id);
+    }
+
+
+    @PostMapping("/update/{id}")
+    public void updateUser(@RequestBody Map<String,Object> data,@PathVariable("id") int id){
+        //System.out.println(data.get("nom"));
+        userService.updateUserDetails(id,data.get("nom").toString(),data.get("prenom").toString(),data.get("email").toString(),data.get("username").toString(),data.get("bio").toString());
+    }
+
+    @PostMapping("/update/password/{id}")
+    public void updateUserPassword(@RequestBody Map<String,Object> data,@PathVariable("id") int id){
+        System.out.println(data.get("password"));
+        userService.updateUserPassword(id,data.get("password").toString());
     }
 
 
