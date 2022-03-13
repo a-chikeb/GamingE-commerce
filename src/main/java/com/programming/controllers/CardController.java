@@ -17,7 +17,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/card")
-@CrossOrigin("*")
 public class CardController {
 
     @Autowired
@@ -79,7 +78,7 @@ public class CardController {
         pcBuilder.setHeadsetAndMicrophone(data.get("casque"));
         pcBuilder.setMonitor(data.get("monitor"));
         pcBuilder.setMousePad(data.get("tapisSouris"));
-        pcBuilder.setCaseFan(data.get("ventilateurBoitier"));
+        //pcBuilder.setCaseFan(data.get("ventilateurBoitier"));
         //not yet
         //pcBuilder.setNetworkCard(null);
         //pcBuilder.setOperatingSystem(null);
@@ -88,9 +87,9 @@ public class CardController {
         //pcBuilder.setAssembly(null);
         //pcBuilder.setSoundCard(null);
         //pcBuilder.setPrinter(null);
-        pcBuilder.setSpeakers(data.get("micro"));
+        //pcBuilder.setSpeakers(data.get("micro"));
         pcBuilder.setWebcam(data.get("webcam"));
-        pcBuilder.setUsbFlashDrive(data.get("usb"));
+        //pcBuilder.setUsbFlashDrive(data.get("usb"));
         pcBuilder.setPowerSupply(data.get("alimentation"));
         pcBuilder.setGraphicsCard(data.get("carteGraphics"));
 
