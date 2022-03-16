@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+
 /*
 @RestController
 @RequestMapping("/api/v1/scraping")
@@ -30,6 +31,7 @@ public class GetProductFromDesktopWebSite {
     public String getProduct() throws IOException {
         //Carte Mere Amd
         String url = "https://desktop.ma/18-config-pc-gamer-intel";
+        //?n=24
 
 
         Document doc = Jsoup.connect(url).get();
@@ -83,7 +85,7 @@ public class GetProductFromDesktopWebSite {
         product.setDescription(shortDescription);
         product.setOverview(description);
         product.setReference(reference);
-        product.setPrice(price);
+        product.setPrice(Integer.valueOf(price));
         product.setEtat(etat);
         product.setImages(imgs);
         product.setTotal(10);
@@ -93,4 +95,6 @@ public class GetProductFromDesktopWebSite {
 
     }
 }
-*/
+
+
+ */
