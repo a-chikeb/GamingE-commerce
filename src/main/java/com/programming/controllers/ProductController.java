@@ -136,9 +136,8 @@ public class ProductController {
     //Func =>Get Count Of Searched Products
     @GetMapping("/search/{name}/count")
     public Integer searchGetCountProduct(@PathVariable("name") String name){
-        return productRepository.findProductByNameContaining(name).size();
+        return productRepository.findProductByNameContaining("%"+name+"%").size();
     }
-
     //Func =>Get Count Of Category Products
 
     @GetMapping("/category/{name}/count")

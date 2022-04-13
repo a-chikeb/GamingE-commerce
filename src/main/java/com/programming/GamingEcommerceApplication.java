@@ -1,8 +1,12 @@
 package com.programming;
 
+import com.programming.models.Category;
+import com.programming.models.Product;
+import com.programming.repositories.CategoryRepository;
 import com.programming.repositories.ColorRepository;
 import com.programming.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +21,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.Arrays;
 
 @SpringBootApplication
-public class GamingEcommerceApplication {
+public class GamingEcommerceApplication{
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(GamingEcommerceApplication.class, args);
@@ -58,4 +68,23 @@ public class GamingEcommerceApplication {
         return new CorsFilter(source);
     }
 
+    // implements CommandLineRunner
+    /*@Override
+
+    public void run(String... args) throws Exception {
+        Category category = categoryRepository.findByName("Fan Cooling");
+
+        productRepository.save(new Product(
+                "Pate thermique aerocool barafs 2g",
+                "",
+                "",
+                "",
+                19,
+                "",
+                40,
+                category));
+
+    }
+
+     */
 }

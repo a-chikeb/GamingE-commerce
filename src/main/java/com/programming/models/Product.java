@@ -61,13 +61,15 @@ public class Product implements Serializable {
     public Product() {
     }
 
-    public Product(String name, String description, String images, String brand_images, int total, String overview) {
+    public Product(String name, String description, String images, String brand_images, int total, String overview,Integer price,Category category) {
         this.name = name;
         this.description = description;
         this.images = images;
         this.brand_images = brand_images;
         this.total = total;
         this.overview = overview;
+        this.price = price;
+        this.category =  category;
     }
 
     public Long getId() {
