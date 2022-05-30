@@ -29,7 +29,7 @@ public class ProductController {
     private ColorRepository colorRepository;
 
 
-    @GetMapping
+    @GetMapping("/page/{page}")
     public List<Product> getAllProducts(@PathVariable("page") int page){
         Pageable paging = PageRequest.of(page-1, 20);
         return productRepository.findBy(paging);
