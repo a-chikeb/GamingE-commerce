@@ -59,6 +59,7 @@ public class Product implements Serializable {
 
 
     public Product() {
+        
     }
 
     public Product(String name, String description, String images, String brand_images, int total, String overview,Integer price,Category category) {

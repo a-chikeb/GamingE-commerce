@@ -68,20 +68,22 @@ public class GamingEcommerceApplication{
         return new CorsFilter(source);
     }
 
-    // implements CommandLineRunner
-    /*@Override
 
+    /*
+    // implements CommandLineRunner
+    @Override
     public void run(String... args) throws Exception {
-        Category category = categoryRepository.findByName("Fan Cooling");
+
+        Category category = categoryRepository.findByName("Disque Dur HDD");
 
         productRepository.save(new Product(
-                "Pate thermique aerocool barafs 2g",
+                "1TB HDD WD GREEN",
                 "",
+                "./assets/amazon/hdd/2_1.jpg,./assets/amazon/hdd/2_2.jpg,./assets/amazon/hdd/2_3.jpg,./assets/amazon/hdd/2_4.jpg,./assets/amazon/hdd/2_5.jpg",
                 "",
-                "",
-                19,
-                "",
-                40,
+                2,
+                "<table class=\"a-normal a-spacing-micro\">  <tbody><tr class=\"a-spacing-small po-digital_storage_capacity\"> <td class=\"a-span3\"> <span class=\"a-size-base a-text-bold\">Capacité du stockage numérique</span> </td> <td class=\"a-span9\">    <span class=\"a-size-base\">1000 Go</span>   </td> </tr>  <tr class=\"a-spacing-small po-compatible_devices\"> <td class=\"a-span3\"> <span class=\"a-size-base a-text-bold\">Compatibilité du périphérique</span> </td> <td class=\"a-span9\">    <span class=\"a-size-base\">Ordinateur</span>   </td> </tr>  <tr class=\"a-spacing-small po-brand\"> <td class=\"a-span3\"> <span class=\"a-size-base a-text-bold\">Marque</span> </td> <td class=\"a-span9\">    <span class=\"a-size-base\">Western Digital</span>   </td> </tr>  <tr class=\"a-spacing-small po-model_name\"> <td class=\"a-span3\"> <span class=\"a-size-base a-text-bold\">séries</span> </td> <td class=\"a-span9\">    <span class=\"a-size-base\">WD Green</span>   </td> </tr>  <tr class=\"a-spacing-small po-connectivity_technology\"> <td class=\"a-span3\"> <span class=\"a-size-base a-text-bold\">\tType de connecteur\t</span> </td> <td class=\"a-span9\">    <span class=\"a-size-base\">SATA</span>   </td> </tr>  <tr class=\"a-spacing-small po-hard_disk_form_factor\"> <td class=\"a-span3\"> <span class=\"a-size-base a-text-bold\">Facteur de forme du disque dur</span> </td> <td class=\"a-span9\">    <span class=\"a-size-base\">3.5 Pouces</span>   </td> </tr>  <tr class=\"a-spacing-small po-hard_disk.size\"> <td class=\"a-span3\"> <span class=\"a-size-base a-text-bold\">Taille du disque dur</span> </td> <td class=\"a-span9\">    <span class=\"a-size-base\">1000 Go</span>   </td> </tr>  <tr class=\"a-spacing-small po-form_factor\"> <td class=\"a-span3\"> <span class=\"a-size-base a-text-bold\">Facteur de forme</span> </td> <td class=\"a-span9\">    <span class=\"a-size-base\">3.5</span>   </td> </tr>  <tr class=\"a-spacing-small po-cache_memory.installed_size\"> <td class=\"a-span3\"> <span class=\"a-size-base a-text-bold\">Taille du cache</span> </td> <td class=\"a-span9\">    <span class=\"a-size-base\">64 Modificateur inconnu</span>   </td> </tr>  <tr class=\"a-spacing-small po-item_weight\"> <td class=\"a-span3\"> <span class=\"a-size-base a-text-bold\">Poids du produit</span> </td> <td class=\"a-span9\">    <span class=\"a-size-base\">1.61 Livres</span>   </td> </tr>  </tbody></table>",
+                390,
                 category));
 
     }

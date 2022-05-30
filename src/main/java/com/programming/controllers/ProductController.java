@@ -30,8 +30,9 @@ public class ProductController {
 
 
     @GetMapping
-    public List<Product> getAllProducts(){
-        return productRepository.findAll();
+    public List<Product> getAllProducts(@PathVariable("page") int page){
+        Pageable paging = PageRequest.of(page-1, 20);
+        return productRepository.findBy(paging);
     }
 
     @GetMapping("/category/{category}/{page}")
