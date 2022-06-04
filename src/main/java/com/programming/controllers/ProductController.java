@@ -3,17 +3,25 @@ package com.programming.controllers;
 import com.programming.models.Category;
 import com.programming.models.Color;
 import com.programming.models.Product;
+import com.programming.repositories.BasketRepository;
 import com.programming.repositories.CategoryRepository;
 import com.programming.repositories.ColorRepository;
 import com.programming.repositories.ProductRepository;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import javax.transaction.Transactional;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -21,6 +29,9 @@ public class ProductController {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private BasketRepository basketRepository;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -52,7 +63,6 @@ public class ProductController {
 
         return productRepository.findProductByCategory_Name(category,paging);
     }
-
 
 
     //  category/Moniteur-Et-Ecran-Gamer/12
@@ -116,23 +126,61 @@ public class ProductController {
 
 
     @PostMapping("/add")
-    public void addProduct(@RequestBody Map<String,Object> data){
-
-        /*Product product = new Product(data.get("name").toString(),data.get("description").toString(),data.get("images").toString(),data.get("brand_images").toString(),Integer.parseInt(data.get("total").toString()),data.get("overview").toString());
-
-        Category cat = categoryRepository.findByName(data.get("category").toString());
-        product.setCategory(cat);
-        
-         */
-        //System.out.println(data.get("colors"));
+    public void addProduct(@RequestParam("image") MultipartFile[] files,
+                           @RequestParam("name") String name,
+                           @RequestParam("description") String description,
+                           @RequestParam("price") Integer price,
+                           @RequestParam("total") Integer total,
+                           @RequestParam("category_id") Integer category_id,
+                           @RequestParam("overview") String overview) throws IOException {
 
 
-        //productRepository.save(product);
-        //System.out.println(product);
+        Category category = categoryRepository.findById(Long.valueOf(category_id)).get();
+
+        Product product = new Product();
+        product.setCategory(category);
+        product.setName(name);
+        product.setDescription(description);
+        product.setPrice(price);
+        product.setTotal(total);
+        product.setOverview(overview);
+
+
+        //random number for don't duplicate file
+        int min = 100;
+        int max = 100000;
+        int nb = (int)Math.floor(Math.random()*(max-min+1)+min);
+
+
+        StringBuilder image = new StringBuilder();
+        for (MultipartFile file : files) {
+            //Save Image
+            String folder = "src/main/resources/static/images/";
+
+            Path path = Paths.get(folder + nb + file.getOriginalFilename());
+
+            Files.write(path,file.getBytes());
+
+            image.append(folder).append(nb).append(file.getOriginalFilename()).append(",");
+        }
+
+        product.setImages(String.valueOf(image));
+
+        productRepository.save(product);
+
+        System.out.println(product);
 
     }
 
 
+    @PostMapping("/delete/{id}")
+    @Transactional
+    public void deleteProduct(@PathVariable int id){
+        productRepository.delete(productRepository.findById((long) id).get());
+        basketRepository.deleteByProductId(id);
+        System.out.println("product deleted successfully");
+
+    }
 
     //Func =>Get Count Of Searched Products
     @GetMapping("/search/{name}/count")
