@@ -9,20 +9,27 @@ import com.programming.repositories.ColorRepository;
 import com.programming.repositories.ProductRepository;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
 @RestController
 @RequestMapping("/api/v1/products")
 public class ProductController {
@@ -125,7 +132,7 @@ public class ProductController {
 
 
 
-    @PostMapping("/add")
+    /*@PostMapping("/add")
     public void addProduct(@RequestParam("image") MultipartFile[] files,
                            @RequestParam("name") String name,
                            @RequestParam("description") String description,
@@ -173,13 +180,133 @@ public class ProductController {
     }
 
 
+     */
+
+    @PostMapping("/add")
+    public void addProduct(@RequestParam("image") MultipartFile[] files,
+                           @RequestParam("name") String name,
+                           @RequestParam("description") String description,
+                           @RequestParam("price") Integer price,
+                           @RequestParam("total") Integer total,
+                           @RequestParam("category_id") Integer category_id,
+                           @RequestParam("overview") String overview) throws IOException {
+
+
+
+        //Hostinger Ftp variable
+        String server = "51.255.126.128";
+        int port = 21;
+        String user = "u421594952";
+        String pass = "Aymenchikebftp2022";
+        FTPClient ftpClient = new FTPClient();
+
+
+
+        Category category = categoryRepository.findById(Long.valueOf(category_id)).get();
+
+        Product product = new Product();
+        product.setCategory(category);
+        product.setName(name);
+        product.setDescription(description);
+        product.setPrice(price);
+        product.setTotal(total);
+        product.setOverview(overview);
+
+
+        //random number for don't duplicate file
+        int min = 100;
+        int max = 100000;
+        int nb = (int)Math.floor(Math.random()*(max-min+1)+min);
+
+
+        StringBuilder image = new StringBuilder();
+        for (MultipartFile file : files) {
+            //Save Image
+
+            ftpClient.connect(server, port);
+            ftpClient.login(user, pass);
+            ftpClient.enterLocalPassiveMode();
+            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+
+
+            InputStream inputStream = new ByteArrayInputStream(file.getBytes());
+
+            System.out.println("Start uploading first file");
+            boolean done = ftpClient.storeFile("oussama_images/"+nb+file.getOriginalFilename(), inputStream);
+            inputStream.close();
+            if (done) {
+                System.out.println("The first file is uploaded successfully.");
+            }
+
+            image.append("oussama_images/").append(nb).append(file.getOriginalFilename()).append(",");
+        }
+
+
+
+
+
+
+
+
+        product.setImages(String.valueOf(image));
+
+        productRepository.save(product);
+
+        System.out.println(product);
+
+    }
+
+    @GetMapping("/test/test")
+    public void uploadFileInFtp(){
+        String server = "51.255.126.128";
+        int port = 21;
+        String user = "u421594952";
+        String pass = "Aymenchikebftp2022";
+        FTPClient ftpClient = new FTPClient();
+        try {
+
+            ftpClient.connect(server, port);
+            ftpClient.login(user, pass);
+            ftpClient.enterLocalPassiveMode();
+            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+            ftpClient.changeWorkingDirectory("/assets");
+            //ftpClient.set
+
+            // APPROACH #1: uploads first file using an InputStream
+            File firstLocalFile = new File("src/main/resources/static/images/face1.jpg");
+
+            String firstRemoteFile = "face1.jpg";
+            InputStream inputStream = new FileInputStream(firstLocalFile);
+
+            System.out.println("Start uploading first file");
+            boolean done = ftpClient.storeFile("oussama_images/"+firstRemoteFile, inputStream);
+            inputStream.close();
+            if (done) {
+                System.out.println("The first file is uploaded successfully.");
+            }
+
+
+        } catch (IOException ex) {
+            System.out.println("Error: " + ex.getMessage());
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (ftpClient.isConnected()) {
+                    ftpClient.logout();
+                    ftpClient.disconnect();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
     @PostMapping("/delete/{id}")
     @Transactional
     public void deleteProduct(@PathVariable int id){
         productRepository.delete(productRepository.findById((long) id).get());
         basketRepository.deleteByProductId(id);
         System.out.println("product deleted successfully");
-
     }
 
     //Func =>Get Count Of Searched Products

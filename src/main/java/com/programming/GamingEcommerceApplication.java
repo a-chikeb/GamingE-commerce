@@ -7,11 +7,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
 @SpringBootApplication
+@EnableWebMvc
 public class GamingEcommerceApplication implements WebMvcConfigurer{
 
 
@@ -42,7 +44,7 @@ public class GamingEcommerceApplication implements WebMvcConfigurer{
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
         // Register resource handler for images
-        registry.addResourceHandler("/static/images/**").addResourceLocations("/static/images/**");
+        registry.addResourceHandler("/images/**").addResourceLocations("/static/images/");
     }
 
 
