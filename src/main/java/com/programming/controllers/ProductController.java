@@ -241,13 +241,6 @@ public class ProductController {
             image.append("oussama_images/").append(nb).append(file.getOriginalFilename()).append(",");
         }
 
-
-
-
-
-
-
-
         product.setImages(String.valueOf(image));
 
         productRepository.save(product);
@@ -308,6 +301,29 @@ public class ProductController {
         basketRepository.deleteByProductId(id);
         System.out.println("product deleted successfully");
     }
+
+
+    @PostMapping("/update/{id}")
+    public void updateProduct(@PathVariable int id,
+                              @RequestParam("name") String name,
+                              @RequestParam("description") String description,
+                              @RequestParam("price") Integer price,
+                              @RequestParam("total") Integer total,
+                              @RequestParam("category_id") Integer category_id,
+                              @RequestParam("overview") String overview){
+        Product product = productRepository.findProductById((long) id);
+        product.setTotal(total);
+        product.setName(name);
+        product.setPrice(price);
+        product.setDescription(description);
+        product.setCategory(categoryRepository.findById(Long.valueOf(category_id)).get());
+        product.setOverview(overview);
+
+        productRepository.save(product);
+
+    }
+
+
 
     //Func =>Get Count Of Searched Products
     @GetMapping("/search/{name}/count")
