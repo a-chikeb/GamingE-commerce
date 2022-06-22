@@ -14,13 +14,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 @EnableWebMvc
-public class GamingEcommerceApplication implements WebMvcConfigurer{
+public class GamingEcommerceApplication{
 
 
     public static void main(String[] args) {
         SpringApplication.run(GamingEcommerceApplication.class, args);
     }
 
+    /*
     @Bean
     public CorsFilter corsFilter() {
 
@@ -39,13 +40,15 @@ public class GamingEcommerceApplication implements WebMvcConfigurer{
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
+     */
 
-    @Override
+    /*@Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
         // Register resource handler for images
         registry.addResourceHandler("/images/**").addResourceLocations("/static/images/");
     }
+     */
 
 
 }

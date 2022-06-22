@@ -30,8 +30,11 @@ import java.util.*;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
+
+
 @RestController
 @RequestMapping("/api/v1/products")
+@CrossOrigin("*")
 public class ProductController {
 
     @Autowired

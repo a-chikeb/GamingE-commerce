@@ -17,6 +17,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/card")
+@CrossOrigin("*")
 public class CardController {
 
     @Autowired
